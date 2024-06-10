@@ -4,7 +4,7 @@ return {
         ensure_installed = {
             "clangd",
             "clamg-format",
-            "lua-language-server"
+            "lua-language-server",
         },
     },
 }

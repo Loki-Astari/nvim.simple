@@ -38,10 +38,11 @@ vim.opt.cmdheight = 15
 -- Adds "-" as part of the word.
 vim.cmd [[set iskeyword+=-]]
 
+vim.g.mapleader = " "
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
-vim.g.mapleader = " "
 
