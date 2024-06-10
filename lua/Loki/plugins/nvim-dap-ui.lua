@@ -1,3 +1,7 @@
+vim.cmd.DapUIToggle     = function() require('dapui').toggle()              end
+vim.cmd.DapUIHover      = function() require('dap.ui.widgets').hover()      end
+vim.cmd.DapUIPreview    = function() require('dap.ui.widgets').preview()    end
+
 return {
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",

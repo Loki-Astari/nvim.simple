@@ -17,7 +17,6 @@ vim.opt.ruler = true
 -- vim.opt.autoindent = true
 
 -- Some new Options:
-vim.opt.clipboard = 'unnamedplus'
 vim.opt.cmdheight = 2
 vim.opt.fileencoding = 'utf-8'
 vim.opt.showmode = false
@@ -43,4 +42,6 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
+
+vim.g.mapleader = " "
 
