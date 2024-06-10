@@ -1,0 +1,4 @@
+require("Loki")
+print "Done"
+
+
