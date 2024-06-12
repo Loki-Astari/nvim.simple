@@ -22,7 +22,6 @@ return {
             local handle = io.popen("brew --prefix")
             local output = handle:read("*a")
             local install = string.gsub(output .. "/opt/llvm/bin/lldb-dap", "\n", "")
-            vim.print("lldb: " .. install)
             local exists=io.open(install,"r")
             if exists==nil then
                 vim.print("Could not find lldb-dap. Use brew install llvm to install")

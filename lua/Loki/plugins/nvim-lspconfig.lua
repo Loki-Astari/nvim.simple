@@ -166,7 +166,6 @@ capabilities.clangd.textDocument.completion.completionItem = {
     },
   },
 }
-print 'lspconfig-plugin'
 
 
 return {
@@ -177,7 +176,6 @@ return {
     },
 
     config = function()
-        print "lspconfig-config"
         require("lspconfig").lua_ls.setup {
             capabilities = capabilities.Lua,
 
@@ -199,20 +197,25 @@ return {
                 },
             },
         }
+
+        local handle = assert(io.popen('make neovimflags', 'r'))
+        local output = handle:read('*a')
+        io.close(handle)
+
+        local flags = {}
+        for word in output:gmatch("%S+") do
+            table.insert(flags, word)
+        end
+
         require("lspconfig").clangd.setup {
             capabilities = capabilities.clangd,
-
+            cmd = {'/Library/Developer/CommandLineTools/usr/bin/clangd',},
             filetypes = {'c', 'cpp', 'cc', 'mpp', 'ixx', 'tpp'},
-            initializationOptions = {
+            init_options = {
                 -- @see https://clangd.llvm.org/extensions#compilation-commands
                 -- Controls the flags used when no specific compile command is found.
                 -- The compile command will be approximately clang $FILE $fallbackFlags in this case.
-                fallbackFlags = {'-std=c++20',
-                    '-Ibuild/include', '-I../build/include', '-I../../build/include',
-                    '-I/opt/homebrew/include',
-                    '-Ibuild/include3rd', '-I../build/include3rd', '-I../../build/include3rd',
-                    '--include Mock.h'
-                },
+                fallbackFlags = flags,
             },
         }
     end,

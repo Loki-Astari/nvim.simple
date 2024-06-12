@@ -13,7 +13,6 @@ return { -- Highlight, edit, and navigate code
         },
     },
     config = function(_, opts)
-        vim.print(opts)
         -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
         -- Prefer git instead of curl in order to improve connectivity in some environments

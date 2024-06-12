@@ -4,8 +4,13 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- Debugging
 local wk = require('which-key');
-vim.print(wk)
 wk.register({
+    ["n"]           = {"nzzzv",                 "After next keep cursor centered in screen"},
+    ["N"]           = {"Nzzzv",                 "After next keep cursor centered in screen"},
+    ["<C-d>"]       = {"<C-d>zz",               "Jump half page keep cursor centered in screen"},
+    ["<C-u>"]       = {"<C-u>zz",               "Jump half page keep cursor centered in screen"},
+    ["<leader>y"]   = {"\"+y",                  "Yank into system clipboard: Follow by movement"},
+    ["<leader>Y"]   = {"\"+Y",                  "Yank into system clipbaord: Follow by movement"},
     ["<leader>"] = {
         d = {
             name = "Debug", -- optional group name
@@ -68,14 +73,17 @@ wk.register({
     },
 })
 wk.register({
-    ["]R"] = { vim.cmd.GitResetVisHunk,         "Reset Selected Range"}
+    ["]R"]          = { vim.cmd.GitResetVisHunk,"Reset Selected Range"},
+    ["J"]           = { ":m '>+1<CR>gv=gv",     "Move selected line up"},
+    ["K"]           = { ":m '<-2<CR>gv=gv",     "Move selected line down"},
+    ["<leader>y"]   = {"\"+y",                  "Yank into system clipboard"},
 },
 { mode = "v"}
 )
 wk.register({
     -- DAP Controls
     ["<C-1>"] = { vim.cmd.DapUIToggle,          "DAP UI" },
-    ["<C-r>"] = { vim.cmd.DapContinue,          "DAP Continue" },
+    -- ["<C-r>"] = { vim.cmd.DapContinue,          "DAP Continue" },
     ["<C-s>"] = { vim.cmd.DapStepOver,          "DAP Step Over" },
     ["<C-d>"] = { vim.cmd.DapStepInto,          "DAP Step Into" },
     ["<C-f>"] = { vim.cmd.DapStepOut,           "DAP Step Out" },

@@ -1,4 +1,2 @@
 require("Loki")
-print "Done"
-
 
