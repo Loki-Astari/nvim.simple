@@ -46,6 +46,11 @@ vim.cmd [[set iskeyword+=-]]
 -- Use C-X -1
 vim.cmd [[set nrformats+=alpha]]
 
+-- Error format generated from log messages
+vim.cmd [[
+    set errorformat^=%*[^(]%*[^s]s)%*[^]\]\]\ \ %f:%l\ \ \ \ ERR\|\ id:\ %n\ %m
+]]
+
 vim.g.mapleader = " "
 
 vim.opt.tabstop = 4

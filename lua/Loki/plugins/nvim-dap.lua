@@ -11,8 +11,36 @@ vim.cmd.DapUp           = function() require('dap').up()                end
 vim.cmd.DapDown         = function() require('dap').down()              end
 vim.cmd.DapRunToCursor  = function() require('dap').run_to_cursor()     end
 vim.cmd.DapSetBreakpoint= function() require('dap').set_breakpoint()    end
+
+local DapGetConfigLLDB = function(program, args)
+    return {
+        name = 'Launch',
+        type = 'lldb',
+        request = 'launch',
+        program = program,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = args,
+    }
+end
+
+local DapRunUnitTestCode = function(args)
+
+    local handle = assert(io.popen('make neovimruntime', 'r'))
+    local output = handle:read('*a')
+    io.close(handle)
+    vim.print(output)
+
+    -- 1: Install luarocks form brew: brew install luarocks.
+    -- 2: Install Posix module:       sudo luarocks --lua-version 5.1 install luaposix
+    -- 3: Use the plugin 'vhyrro/luarocks.nvim' see: plugin/luarocks.nvim to lazy load the module.
+    require('posix').setenv('DYLD_LIBRARY_PATH', output)
+
+    require('dap').run(DapGetConfigLLDB('test/coverage/unittest.prog', args))
+end
+
 -- Run all the unit tests
-vim.cmd.DapRunUnitTests = function() vim.cmd.DapRunUnitTestCode({})     end
+vim.cmd.DapRunUnitTests = function() DapRunUnitTestCode({})     end
 -- Run the unit test that the cursor is over.
 vim.cmd.DapRunOneTests  = function()
     local lineNo = vim.fn.search('TEST(', 'bn')
@@ -26,32 +54,8 @@ vim.cmd.DapRunOneTests  = function()
     if (#res == 3 and res[1] == 'TEST') then
         require('dap').set_breakpoint()
         print("Running: >" .. res[2] .. '.' .. res[3])
-        vim.cmd.DapRunUnitTestCode({'---gtest_filter=' .. res[2] .. '.' .. res[3]})
+        DapRunUnitTestCode({'---gtest_filter=' .. res[2] .. '.' .. res[3]})
     end
-end
-vim.cmd.DapRunUnitTestCode = function(args)
-
-    local handle = assert(io.popen('make neovimruntime', 'r'))
-    local output = handle:read('*a')
-    io.close(handle)
-    vim.print(output)
-
-    -- 1: Install luarocks form brew: brew install luarocks.
-    -- 2: Install Posix module:       sudo luarocks --lua-version 5.1 install luaposix
-    -- 3: Use the plugin 'vhyrro/luarocks.nvim' see: plugin/luarocks.nvim to lazy load the module.
-    require('posix').setenv('DYLD_LIBRARY_PATH', output)
-
-    local config = {
-        name = 'Launch',
-        type = 'lldb',
-        request = 'launch',
-        program = 'test/coverage/unittest.prog',
-        cwd = '${workspaceFolder}',
-        stopOnEntry = false,
-        args = args,
-    }
-
-    require('dap').run(config)
 end
 
 
@@ -77,22 +81,9 @@ return {
                     command = install,
                     name = 'lldb'
                 }
+                local getAppName = function() return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file') end
 
-
-                dap.configurations.cpp = {
-                    {
-                        name = 'Launch',
-                        type = 'lldb',
-                        request = 'launch',
-                        program = function()
-                            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-                        end,
-                        cwd = '${workspaceFolder}',
-                        stopOnEntry = false,
-                        args = {},
-
-                    },
-                }
+                dap.configurations.cpp = {DapGetConfigLLDB(getAppName, {})};
             end
         end
     end,
