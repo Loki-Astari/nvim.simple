@@ -41,6 +41,10 @@ vim.opt.cmdheight = 15
 
 -- Adds "-" as part of the word.
 vim.cmd [[set iskeyword+=-]]
+-- Allows auto incremnt on numbers
+-- Use C-A +1
+-- Use C-X -1
+vim.cmd [[set nrformats+=alpha]]
 
 vim.g.mapleader = " "
 
@@ -50,4 +54,5 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 vim.opt.guicursor = ""
+
 

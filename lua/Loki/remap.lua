@@ -11,10 +11,21 @@ wk.register({
     ["<C-u>"]       = {"<C-u>zz",               "Jump half page keep cursor centered in screen"},
     ["<leader>y"]   = {"\"+y",                  "Yank into system clipboard: Follow by movement"},
     ["<leader>Y"]   = {"\"+Y",                  "Yank into system clipbaord: Follow by movement"},
+    -- DAP Controls
+    ["<C-1>"]       = { vim.cmd.DapUIToggle,    "DAP UI" },
+    -- ["<C-r>"]       = { vim.cmd.DapContinue,          "DAP Continue" },
+    ["<C-s>"]       = { vim.cmd.DapStepOver,    "DAP Step Over" },
+    --["<C-d>"]       = { vim.cmd.DapStepInto,    "DAP Step Into" },
+    ["<C-f>"]       = { vim.cmd.DapStepOut,     "DAP Step Out" },
+    -- Git Controls
+    ["]g"]          = {vim.cmd.GitNextHunk,     "Jump to next hunk", opts = { expr = true }},
+    ["[g"]          = {vim.cmd.GitPrevHunk,     "Jump to prev hunk", opts = { expr = true }},
+    ["<leader>F"]   = {vim.lsp.buf.format,      "Format the current buffer"},
+
     ["<leader>"] = {
         d = {
             name = "Debug", -- optional group name
-            t = { vim.cmd.DapTerminate,         "Terminate" },
+            T = { vim.cmd.DapTerminate,         "Terminate" },
             r = { vim.cmd.DapContinue,          "Run/Continue: <C-r>" },
             e = { vim.cmd.DapRestart,           "Restart" },
             p = { vim.cmd.DapPauseThread,       "Pause threads" },
@@ -34,6 +45,9 @@ wk.register({
             U = { vim.cmd.DapUIToggle,          "DAP UI: <C-1>"},
             h = { vim.cmd.DapUIHover,           "Show variable under cursor"},
             v = { vim.cmd.DapUIPreview,         "Preview?"},
+
+            u = { vim.cmd.DapRunUnitTests,      "Run Unit tests associted with package"},
+            t = { vim.cmd.DapRunOneTests,       "Run Unit test the cursor is in"}
         },
         g = {
             name = "Git",
@@ -81,14 +95,5 @@ wk.register({
 { mode = "v"}
 )
 wk.register({
-    -- DAP Controls
-    ["<C-1>"] = { vim.cmd.DapUIToggle,          "DAP UI" },
-    -- ["<C-r>"] = { vim.cmd.DapContinue,          "DAP Continue" },
-    ["<C-s>"] = { vim.cmd.DapStepOver,          "DAP Step Over" },
-    ["<C-d>"] = { vim.cmd.DapStepInto,          "DAP Step Into" },
-    ["<C-f>"] = { vim.cmd.DapStepOut,           "DAP Step Out" },
-    -- Git Controls
-    ["]g"] = {vim.cmd.GitNextHunk,              "Jump to next hunk", opts = { expr = true }},
-    ["[g"] = {vim.cmd.GitPrevHunk,              "Jump to prev hunk", opts = { expr = true }},
 })
 
